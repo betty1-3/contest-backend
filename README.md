@@ -242,6 +242,140 @@ http://127.0.0.1:8000/docs
 ```
 
 ---
+## Entity Relationship Diagram
+
+```text
+User
+ │
+ ├── Registration
+ │        │
+ │        ▼
+ │     Contest
+ │        │
+ │        ▼
+ │     Problem
+ │        │
+ │        ▼
+ └── Submission
+
+Activity
+```
+
+Relationships:
+
+* One Contest can contain many Problems.
+* One User can register for many Contests.
+* One Contest can have many Registrations.
+* One User can create many Submissions.
+* One Problem can have many Submissions.
+* Activities are generated for important system actions.
+
+---
+
+## Request & Response Examples
+
+### Create Contest
+
+Request
+
+```json
+{
+  "name": "CodeChef June Challenge",
+  "description": "Recruitment Contest",
+  "start_time": "2026-06-28T18:00:00",
+  "end_time": "2026-06-28T21:00:00"
+}
+```
+
+Response
+
+```json
+{
+  "id": 1,
+  "name": "CodeChef June Challenge",
+  "status": "Scheduled"
+}
+```
+
+### Register Participant
+
+Request
+
+```json
+{
+  "user_id": 1,
+  "contest_id": 1
+}
+```
+
+Response
+
+```json
+{
+  "message": "Registration successful"
+}
+```
+
+### Create Submission
+
+Request
+
+```json
+{
+  "user_id": 1,
+  "problem_id": 1,
+  "language": "Python"
+}
+```
+
+Response
+
+```json
+{
+  "submission_id": 1,
+  "verdict": "Accepted"
+}
+```
+
+### Get Leaderboard
+
+Response
+
+```json
+[
+  {
+    "user_id": 1,
+    "username": "likhi",
+    "points": 500,
+    "penalty": 15.5
+  }
+]
+```
+
+---
+
+## Assumptions Made
+
+* SQLite was used for simplicity and rapid development.
+* Verdict generation is currently mocked and designed for future integration with a judging service.
+* Leaderboard ranking is based on total problem points and penalty time.
+* Penalty time is calculated using contest start time and accepted submission time.
+* Multiple submissions are allowed, but a solved problem contributes points only once.
+* Authentication and authorization are planned as future enhancements.
+* Freeze Mode and Rejudge System were not implemented in the current version.
+
+---
+
+## Limitations
+
+* JWT Authentication not implemented.
+* Freeze Mode not implemented.
+* Rejudge System not implemented.
+* Problem Time Limit and Memory Limit fields are not currently enforced.
+* Project is configured for local SQLite usage and is not deployed.
+
+```
+```
 
 ## Future Improvements
 
